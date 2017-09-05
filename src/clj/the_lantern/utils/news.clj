@@ -8,6 +8,10 @@
 
 (def api-host "https://newsapi.org")
 (def sources-url (str api-host "/v1/sources"))
+(def articles-url (str api-host "/v1/articles"))
+
+(defn ^:private parse-json-response [response]
+  (json/read-str (:body response) :key-fn keyword))
 
 (def ^:private sources (atom nil))
 (defn get-sources []
@@ -15,8 +19,7 @@
       (reset! sources 
               (-> sources-url
                   client/get
-                  :body
-                  (json/read-str :key-fn keyword)
+                  parse-json-response
                   :sources))))
 
 (defn random-sources [n]
@@ -24,4 +27,16 @@
       shuffle
       (take n)
       (map :id)))
+
+(defn get-articles [source]
+  (-> articles-url
+      (client/get {:query-params {"apiKey" api-key "source" source}})
+      parse-json-response))
+
+(defn get-random-headlines []
+  (->> (random-sources 5)
+       (map get-articles)
+       (map :articles)
+       flatten
+       (map :title)))
 

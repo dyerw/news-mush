@@ -7,7 +7,7 @@
             [clojure.java.io :as io]))
 
 (defn home-page []
-  (log/info (news/random-sources 6))
+  (log/info (news/get-random-headlines))
   (layout/render
     "home.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
 
