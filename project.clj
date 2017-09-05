@@ -5,6 +5,7 @@
 
   :dependencies [[clj-time "0.14.0"]
                  [clj-http "3.7.0"]
+                 [postagga "0.2.8"]
                  [org.clojure/data.json "0.2.6"]
                  [com.google.guava/guava "20.0"]
                  [com.novemberain/monger "3.1.0" :exclusions [com.google.guava/guava]]

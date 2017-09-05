@@ -26,6 +26,7 @@
   (->> (get-sources)
       shuffle
       (take n)
+      (filter #(= (:language %) "en"))
       (map :id)))
 
 (defn get-articles [source]
@@ -38,5 +39,6 @@
        (map get-articles)
        (map :articles)
        flatten
-       (map :title)))
+       (map :title)
+       (filter (complement nil?))))
 
